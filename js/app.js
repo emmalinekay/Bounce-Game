@@ -12,82 +12,126 @@ function Circle(x, y, dx, dy, ballRadius, color){
   this.dx = dx;
   this.dy = dy;
   this.ballRadius = ballRadius;
-  this.color = colorArray[Math.floor(Math.random() * colorArray.length)];
+  this.color = color;
 }
+
+var colorArray = ['#F4EE7C', '#ED523D', '#9BC1BC', '#5D576B'];
 
 Circle.prototype.changeColor = function(){
   var colors = ['#FFE74C', '#6E44FF', '#98C379', '#FF5964'];
   color = colors[Math.floor(Math.random() * 4)];
 };
 
-var colorArray = ['#FFE74C', '#6E44FF', '#98C379', '#FF5964'];
-
 
 Circle.prototype.draw = function(){
+  ctx.fillStyle = this.color;
   ctx.beginPath();
-   ctx.arc(this.x, this.y, this.ballRadius, 0, Math.PI*2);
-  //  ctx.fillStyle = 'blue';
-   ctx.fill();
-   ctx.fillStyle = this.color;
+  ctx.arc(this.x, this.y, this.ballRadius, 0, Math.PI*2);
+  ctx.fill();
 };
 
 Circle.prototype.update = function(){
   if (this.x + this.ballRadius > canvas.width) {
      this.dx = -this.dx;
-    //  ctx.fillStyle = 'blue';
    }
 
    if (this.x - this.ballRadius < 0) {
      this.dx = -this.dx;
-    //  ctx.fillStyle = 'red';
    }
 
    if (this.y + this.ballRadius > canvas.height) {
      this.dy = -this.dy;
-      // ctx.fillStyle = 'orange';
    }
 
    if (this.y - this.ballRadius < 0) {
      this.dy = -this.dy;
-      // ctx.fillStyle = 'green';
    }
 
      this.x += this.dx;
      this.y += this.dy;
 
-    //  this.changeColor();
      this.draw();
 };
 
 
 
-var circleArrary = [];
 
-for (var i=0; i < 200; i++) {
-  var ballRadius = 15;
+var circleArray = [];
+
+for (var i=0; i < 120; i++) {
+  // console.log(randomRadius);
+  var ballRadius = Math.floor(Math.random() * 30) + 15 ;
   var x = Math.random() * (canvas.width - ballRadius*2) + ballRadius;
   var y = Math.random() * (canvas.height - ballRadius*2) + ballRadius;
-  var dx = (Math.random() - 0.5) * 8;
-  var dy = (Math.random() - 0.5) * 8;
+  var dx = (Math.random() - 0.5) * 6;
+  var dy = (Math.random() - 0.5) * 6;
+  var color = colorArray[Math.floor(Math.random() * colorArray.length)];
 
-  circleArrary.push(new Circle(x, y, dx, dy, ballRadius, 'red'));
+
+  circleArray.push(new Circle(x, y, dx, dy, ballRadius, color));
 }
 
 function animate(){
   requestAnimationFrame(animate);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  for (var i=0; i < circleArrary.length; i++) {
-    circleArrary[i].update();
-    // circleArrary[i].changeColor();
+  for (var i=0; i < circleArray.length; i++) {
+    circleArray[i].update();
   }
 }
 
 animate();
 
+console.log(circleArray[0].color);
 
-var element = Circle;
 
-$(element).addEventListener("click", function(){
-  console.log('Hey');
+
+var timeoutHandle;
+function countdown(minutes) {
+    var seconds = 60;
+    var mins = minutes;
+    function tick() {
+        var counter = document.getElementById("timer");
+        var current_minutes = mins-1;
+        seconds--;
+        counter.innerHTML =
+        current_minutes.toString() + ":" + (seconds < 10 ? "0" : "") + String(seconds);
+        if( seconds > 0 ) {
+            timeoutHandle=setTimeout(tick, 1000);
+        } else {
+            if(mins > 1){
+               setTimeout(function () { countdown(mins - 1); }, 1000);
+          }
+        }
+    }
+    tick();
+}
+
+countdown(1);
+
+
+
+var audio = new Audio('./pop.mp3');
+
+//retrieves the x,y coordinates of the mouse click
+$("canvas").click(function(e) {
+  var offset = $(this).offset();
+  var relativeX = (e.pageX - offset.left);
+  var relativeY = (e.pageY - offset.top);
+  var clickPosition = (relativeX+', '+relativeY);
+  console.log(clickPosition);
+
+
+  circleArray.forEach(function(oneCircle){
+    var radiusX = ((relativeX <= (oneCircle.x + ballRadius)) && ( relativeX >= ((oneCircle.x) - ballRadius)));
+    var radiusY = ((relativeY <= (oneCircle.y + ballRadius)) && ( relativeY >= ((oneCircle.y) - ballRadius)));
+
+    if(radiusX && radiusY) {
+      if(oneCircle.color === '#F4EE7C') {
+        oneCircle.color = '#E6EBE0';
+        audio.play();
+      }
+    }
+  });
+
 });

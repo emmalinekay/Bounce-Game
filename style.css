@@ -5,6 +5,8 @@ body {
 }
 canvas {
     background: white;
+    margin: 0 auto;
+
     /*border: 2px solid black;
     border-radius: 3px;*/
   }
@@ -36,4 +38,45 @@ h2 {
 
 .color2 {
   color: #2A4849;
+}
+
+#opening-title, #win-title, #lose-title {
+  font-family: 'Luckiest Guy';
+  font-size: 40px;
+  color: #2A4849;
+}
+
+#opening-phrase {
+  font-size: 25px;
+  color: #2A4849;
+  padding-left: 40px;
+  font-weight: bold;
+}
+
+#opening-list {
+  padding-left: 50px;
+  font-size: 16px;
+  padding-right: 15px;
+}
+
+#opening-image {
+  padding-left: 50px;
+  padding-top: 10px;
+  padding-bottom: 30px;
+}
+
+#opening-button {
+  width: 100%;
+}
+
+#win-image  {
+  padding-left: 30px;
+}
+
+#lose-image {
+  padding-left: 40px;
+}
+
+#button {
+  width: 49%;
 }

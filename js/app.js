@@ -1,10 +1,25 @@
+var circleArray = [];
 var canvas = document.querySelector("canvas");
 var ctx = canvas.getContext("2d");
+  var colorArray = ['#F4EE7C', '#ED523D', '#9BC1BC', '#5D576B'];
 
-window.addEventListener('resize', function(){
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+
+$(window).on('load',function(){
+    $('#myModal').modal('show');
+    setTimeout(function(){
+    $('#myModal').modal('hide');
+}, 20000);
 });
+
+
+// window.addEventListener('resize', function(){
+//   canvas.width = window.innerWidth;
+//   canvas.height = window.innerHeight;
+// });
 
 function Circle(x, y, dx, dy, ballRadius, color){
   this.x = x;
@@ -15,7 +30,6 @@ function Circle(x, y, dx, dy, ballRadius, color){
   this.color = color;
 }
 
-var colorArray = ['#F4EE7C', '#ED523D', '#9BC1BC', '#5D576B'];
 
 Circle.prototype.changeColor = function(){
   var colors = ['#FFE74C', '#6E44FF', '#98C379', '#FF5964'];
@@ -54,11 +68,7 @@ Circle.prototype.update = function(){
 };
 
 
-
-
-var circleArray = [];
-
-for (var i=0; i < 120; i++) {
+for (var i=0; i < 150; i++) {
   // console.log(randomRadius);
   var ballRadius = Math.floor(Math.random() * 30) + 15 ;
   var x = Math.random() * (canvas.width - ballRadius*2) + ballRadius;
@@ -82,10 +92,9 @@ function animate(){
 
 animate();
 
-console.log(circleArray[0].color);
 
 
-
+//Timer for 1 minute
 var timeoutHandle;
 function countdown(minutes) {
     var seconds = 60;
@@ -98,13 +107,19 @@ function countdown(minutes) {
         current_minutes.toString() + ":" + (seconds < 10 ? "0" : "") + String(seconds);
         if( seconds > 0 ) {
             timeoutHandle=setTimeout(tick, 1000);
-        } else {
+        }
+        else if (seconds === 0) {
+            game.checkResult();
+        }
+        else {
             if(mins > 1){
                setTimeout(function () { countdown(mins - 1); }, 1000);
           }
         }
     }
     tick();
+
+
 }
 
 countdown(1);
@@ -135,3 +150,13 @@ $("canvas").click(function(e) {
   });
 
 });
+
+// circleArray.prototype.checkWinner = function() {
+
+  // if (circleArray.color != '#F4EE7C') {
+  //   $('#winningModal').modal('show');
+  // } else {
+  //   $('#losingModal').modal('show');
+  // }
+
+// };

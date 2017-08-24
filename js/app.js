@@ -2,25 +2,19 @@ var circleArray = [];
 var canvas = document.querySelector("canvas");
 var ctx = canvas.getContext("2d");
 var colorArray = ['#F4EE7C', '#ED523D', '#9BC1BC', '#5D576B'];
+var ballRadius;
 
-
+//size of game resizes with window.
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 
+//opening instruction modal
 $(window).on('load',function(){
     $('#myModal').modal('show');
-    setTimeout(function(){
-    $('#myModal').modal('hide');
-}, 20000);
 });
 
-
-// window.addEventListener('resize', function(){
-//   canvas.width = window.innerWidth;
-//   canvas.height = window.innerHeight;
-// });
-
+//function to build circles
 function Circle(x, y, dx, dy, ballRadius, color){
   this.x = x;
   this.y = y;
@@ -30,13 +24,13 @@ function Circle(x, y, dx, dy, ballRadius, color){
   this.color = color;
 }
 
-
+//color function for the circles
 Circle.prototype.changeColor = function(){
   var colors = ['#FFE74C', '#6E44FF', '#98C379', '#FF5964'];
   color = colors[Math.floor(Math.random() * 4)];
 };
 
-
+// draw function for the circles
 Circle.prototype.draw = function(){
   ctx.fillStyle = this.color;
   ctx.beginPath();
@@ -44,6 +38,7 @@ Circle.prototype.draw = function(){
   ctx.fill();
 };
 
+//function that allows circles to bounce off the walls.
 Circle.prototype.update = function(){
   if (this.x + this.ballRadius > canvas.width) {
      this.dx = -this.dx;
@@ -67,31 +62,35 @@ Circle.prototype.update = function(){
      this.draw();
 };
 
-
-for (var i=0; i < 150; i++) {
-  // console.log(randomRadius);
-  var ballRadius = Math.floor(Math.random() * 30) + 15 ;
+function ballFlow(cow){
+//randomization function for the circles.
+for (var i=0; i < cow; i++) {
+  console.log('d: ' + ballRadius);
+  var ballRadius = Math.floor(Math.random() * 30) + 15 ; //min radius of 15 and max of 30
   var x = Math.random() * (canvas.width - ballRadius*2) + ballRadius;
   var y = Math.random() * (canvas.height - ballRadius*2) + ballRadius;
-  var dx = (Math.random() - 0.5) * 6;
-  var dy = (Math.random() - 0.5) * 6;
+  var dx = (Math.random() - 0.5) * 4;
+  var dy = (Math.random() - 0.5) * 4;
   var color = colorArray[Math.floor(Math.random() * colorArray.length)];
 
-
   circleArray.push(new Circle(x, y, dx, dy, ballRadius, color));
+  }
 }
 
+//animate the circles.
 function animate(){
   requestAnimationFrame(animate);
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   for (var i=0; i < circleArray.length; i++) {
     circleArray[i].update();
+
   }
 }
 
-animate();
 
+ballFlow(130);
+animate();
 
 
 //Timer for 1 minute
@@ -120,24 +119,10 @@ function countdown(minutes) {
     tick();
 }
 
-
+//audio for the correctly selected circle
 var audio = new Audio('./pop.mp3');
 
 var hexcolor = colorArray[Math.floor(Math.random() * colorArray.length)];
-
-// var colorPick = function(){
-//   if(hexcolor === '#6E44FF') {
-//     color = 'blue';
-//   } else if(hexcolor === '#FFE74C') {
-//   color = 'yellow';
-// } else if (hexcolor === '#FF5964') {
-//     color = 'red';
-//   } else {
-//     color = 'purple';
-//   }
-// };
-
-// var finalColor = document.getElementById("glyphicon");
 document.getElementById("glyphicon").style.color = hexcolor;
 
 //retrieves the x,y coordinates of the mouse click
@@ -149,26 +134,22 @@ $("canvas").click(function(e) {
   console.log(clickPosition);
 
 
+//retrieves the coordinates of the entire circle
   circleArray.forEach(function(oneCircle){
-    var radiusX = ((relativeX <= (oneCircle.x + ballRadius)) && ( relativeX >= ((oneCircle.x) - ballRadius)));
-    var radiusY = ((relativeY <= (oneCircle.y + ballRadius)) && ( relativeY >= ((oneCircle.y) - ballRadius)));
+    // var ballRadius = ballRadius;
+    console.log(oneCircle.ballRadius);
+    var radiusX = ((relativeX <= (oneCircle.x + oneCircle.ballRadius)) && ( relativeX >= ((oneCircle.x) - oneCircle.ballRadius)));
+    var radiusY = ((relativeY <= (oneCircle.y + oneCircle.ballRadius)) && ( relativeY >= ((oneCircle.y) - oneCircle.ballRadius)));
 
+//what happens when the correct color circle is clicked.
     if(radiusX && radiusY) {
       if(oneCircle.color === hexcolor) {
         oneCircle.color = '#E6EBE0';
+        oneCircle.ballRadius = 13;
         audio.play();
+      } else if (oneCircle.hexcolor === 'null') {
+        game.checkResult();
       }
     }
   });
-
 });
-
-// circleArray.prototype.checkWinner = function() {
-
-  // if (circleArray.color != '#F4EE7C') {
-  //   $('#winningModal').modal('show');
-  // } else {
-  //   $('#losingModal').modal('show');
-  // }
-
-// };

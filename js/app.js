@@ -1,7 +1,7 @@
 var circleArray = [];
 var canvas = document.querySelector("canvas");
 var ctx = canvas.getContext("2d");
-  var colorArray = ['#F4EE7C', '#ED523D', '#9BC1BC', '#5D576B'];
+var colorArray = ['#F4EE7C', '#ED523D', '#9BC1BC', '#5D576B'];
 
 
 canvas.width = window.innerWidth;
@@ -118,15 +118,27 @@ function countdown(minutes) {
         }
     }
     tick();
-
-
 }
-
-countdown(1);
-
 
 
 var audio = new Audio('./pop.mp3');
+
+var hexcolor = colorArray[Math.floor(Math.random() * colorArray.length)];
+
+// var colorPick = function(){
+//   if(hexcolor === '#6E44FF') {
+//     color = 'blue';
+//   } else if(hexcolor === '#FFE74C') {
+//   color = 'yellow';
+// } else if (hexcolor === '#FF5964') {
+//     color = 'red';
+//   } else {
+//     color = 'purple';
+//   }
+// };
+
+// var finalColor = document.getElementById("glyphicon");
+document.getElementById("glyphicon").style.color = hexcolor;
 
 //retrieves the x,y coordinates of the mouse click
 $("canvas").click(function(e) {
@@ -142,7 +154,7 @@ $("canvas").click(function(e) {
     var radiusY = ((relativeY <= (oneCircle.y + ballRadius)) && ( relativeY >= ((oneCircle.y) - ballRadius)));
 
     if(radiusX && radiusY) {
-      if(oneCircle.color === '#F4EE7C') {
+      if(oneCircle.color === hexcolor) {
         oneCircle.color = '#E6EBE0';
         audio.play();
       }

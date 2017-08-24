@@ -89,14 +89,14 @@ function animate(){
 }
 
 
-ballFlow(180);
+ballFlow(130);
 animate();
 
 
 //Timer for 1 minute
 var timeoutHandle;
 function countdown(minutes) {
-    var seconds = 60;
+    var seconds = 30;
     var mins = minutes;
     function tick() {
         var counter = document.getElementById("timer");

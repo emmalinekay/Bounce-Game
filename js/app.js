@@ -89,7 +89,7 @@ function animate(){
 }
 
 
-ballFlow(130);
+ballFlow(180);
 animate();
 
 

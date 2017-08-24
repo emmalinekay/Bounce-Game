@@ -120,7 +120,7 @@ function countdown(minutes) {
 }
 
 //audio for the correctly selected circle
-var audio = new Audio('./pop.mp3');
+var audio = new Audio('./poppop.mp3');
 
 var hexcolor = colorArray[Math.floor(Math.random() * colorArray.length)];
 document.getElementById("glyphicon").style.color = hexcolor;

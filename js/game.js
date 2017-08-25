@@ -7,6 +7,8 @@ function NewGame(){
   this.time = 1;
   this.hasWon = false;
   this.score = 1;
+  this.balls = 120; 
+
   $('.score span').html(this.score);
 }
 
@@ -14,13 +16,15 @@ function NewGame(){
 NewGame.prototype.checkResult = function(){
   for (i=0; i < circleArray.length; i++)
   if(circleArray[i].color === hexcolor) {
-    console.log('hello');
-    $('#losingModal').modal('show');
+    // console.log('hello');
+
+
+    // $('#losingModal').modal('show');
     break;
   }
   for (i=0; i < circleArray.length; i++)
   if(circleArray[i].color != hexcolor) {
-    $('#winningModal').modal('show');
+    // $('#winningModal').modal('show');
   }
 };
 

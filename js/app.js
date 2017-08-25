@@ -84,7 +84,6 @@ function animate(){
 
   for (var i=0; i < circleArray.length; i++) {
     circleArray[i].update();
-
   }
 }
 
@@ -137,7 +136,7 @@ $("canvas").click(function(e) {
 //retrieves the coordinates of the entire circle
   circleArray.forEach(function(oneCircle){
     // var ballRadius = ballRadius;
-    console.log(oneCircle.ballRadius);
+    // console.log(oneCircle.ballRadius);
     var radiusX = ((relativeX <= (oneCircle.x + oneCircle.ballRadius)) && ( relativeX >= ((oneCircle.x) - oneCircle.ballRadius)));
     var radiusY = ((relativeY <= (oneCircle.y + oneCircle.ballRadius)) && ( relativeY >= ((oneCircle.y) - oneCircle.ballRadius)));
 
@@ -147,6 +146,9 @@ $("canvas").click(function(e) {
         oneCircle.color = '#E6EBE0';
         oneCircle.ballRadius = 13;
         audio.play();
+      }
+      if(oneCircle.color != hexcolor) {
+        $('#winningModal').modal('show');
       }
     }
   });

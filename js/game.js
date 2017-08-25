@@ -7,20 +7,29 @@ function NewGame(){
   this.time = 1;
   this.hasWon = false;
   this.score = 1;
+  $('.score span').html(this.score);
 }
 
 
-
 NewGame.prototype.checkResult = function(){
-circleArray.forEach(function(oneCircle){
-  var color = oneCircle.color;
-  if (color != hexcolor) {
-    $('#winningModal').modal('show');
-  } else {
+  for (i=0; i < circleArray.length; i++)
+  if(circleArray[i].color === hexcolor) {
+    console.log('hello');
     $('#losingModal').modal('show');
+    break;
   }
-
-});
+  for (i=0; i < circleArray.length; i++)
+  if(circleArray[i].color != hexcolor) {
+    $('#winningModal').modal('show');
+  }
 };
 
-    
+$('.level-button').click(function(){
+  circleArray = [];
+  ballFlow();
+  animate();
+  $('#winningModal').modal('hide');
+
+  game.score += 1;
+  $('.score span').html(game.score);
+});

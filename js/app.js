@@ -6,7 +6,7 @@ var ballRadius;
 
 //size of game resizes with window.
 canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.height = 600;
 
 
 //opening instruction modal
@@ -62,9 +62,9 @@ Circle.prototype.update = function(){
      this.draw();
 };
 
-function ballFlow(cow){
+function ballFlow(){
 //randomization function for the circles.
-for (var i=0; i < cow; i++) {
+for (var i=0; i < 120; i++) {
   console.log('d: ' + ballRadius);
   var ballRadius = Math.floor(Math.random() * 30) + 15 ; //min radius of 15 and max of 30
   var x = Math.random() * (canvas.width - ballRadius*2) + ballRadius;
@@ -89,7 +89,7 @@ function animate(){
 }
 
 
-ballFlow(130);
+ballFlow();
 animate();
 
 
@@ -147,8 +147,6 @@ $("canvas").click(function(e) {
         oneCircle.color = '#E6EBE0';
         oneCircle.ballRadius = 13;
         audio.play();
-      } else if (oneCircle.hexcolor === 'null') {
-        game.checkResult();
       }
     }
   });

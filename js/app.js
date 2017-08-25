@@ -1,8 +1,14 @@
 var circleArray = [];
+var colorPick = [];
 var canvas = document.querySelector("canvas");
 var ctx = canvas.getContext("2d");
 var colorArray = ['#F4EE7C', '#ED523D', '#9BC1BC', '#5D576B'];
 var ballRadius;
+var audio = new Audio('./poppop.mp3');
+var hexcolor = colorArray[Math.floor(Math.random() * colorArray.length)];
+document.getElementById("glyphicon").style.color = hexcolor;
+var totalColors = colorPick.length;
+var grey = 0;
 
 //size of game resizes with window.
 canvas.width = window.innerWidth;
@@ -64,7 +70,7 @@ Circle.prototype.update = function(){
 
 function ballFlow(){
 //randomization function for the circles.
-for (var i=0; i < 120; i++) {
+for (var i=0; i < 130; i++) {
   console.log('d: ' + ballRadius);
   var ballRadius = Math.floor(Math.random() * 30) + 15 ; //min radius of 15 and max of 30
   var x = Math.random() * (canvas.width - ballRadius*2) + ballRadius;
@@ -73,8 +79,13 @@ for (var i=0; i < 120; i++) {
   var dy = (Math.random() - 0.5) * 4;
   var color = colorArray[Math.floor(Math.random() * colorArray.length)];
 
+  if (color === hexcolor){
+  colorPick.push(new Circle(x, y, dx, dy, ballRadius, color));
+  circleArray.push(new Circle(x, y, dx, dy, ballRadius, color));
+  } else {
   circleArray.push(new Circle(x, y, dx, dy, ballRadius, color));
   }
+}
 }
 
 //animate the circles.
@@ -119,10 +130,7 @@ function countdown(minutes) {
 }
 
 //audio for the correctly selected circle
-var audio = new Audio('./poppop.mp3');
 
-var hexcolor = colorArray[Math.floor(Math.random() * colorArray.length)];
-document.getElementById("glyphicon").style.color = hexcolor;
 
 //retrieves the x,y coordinates of the mouse click
 $("canvas").click(function(e) {
@@ -146,9 +154,8 @@ $("canvas").click(function(e) {
         oneCircle.color = '#E6EBE0';
         oneCircle.ballRadius = 13;
         audio.play();
-      }
-      if(oneCircle.color != hexcolor) {
-        $('#winningModal').modal('show');
+        grey ++;
+        game.checkWin();
       }
     }
   });

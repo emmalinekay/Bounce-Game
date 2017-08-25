@@ -6,7 +6,7 @@ var ballRadius;
 
 //size of game resizes with window.
 canvas.width = window.innerWidth;
-canvas.height = 500;
+canvas.height = 600;
 
 
 //opening instruction modal
